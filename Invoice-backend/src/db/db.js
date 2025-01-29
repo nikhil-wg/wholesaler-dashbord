@@ -1,8 +1,4 @@
 import mongoose, { model, Schema, Types } from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
-
-mongoose.connect(process.env.DATABASE_URL);
 
 // in the below all schema's id will be generated automatically !
 const customerSchema = new Schema({
@@ -71,8 +67,11 @@ const invoiceSchema = new Schema({
 });
 
 // exporting all schema's
-module.exports = new model("Customers", customerSchema);
-module.exports = new model("Products", productSChema);
-module.exports = new model("ProductVariant", productVariantSchema);
-module.exports = new model("Orders", orderSchema);
-module.exports = new model("Invoice", invoiceSchema);
+export const CustomerModel = new model("Customers", customerSchema);
+export const ProductModel = new model("Products", productSChema);
+export const ProductVariantModel = new model(
+  "ProductVariant",
+  productVariantSchema
+);
+export const OrderModel = new model("Orders", orderSchema);
+export const InvoiceModel = new model("Invoice", invoiceSchema);
