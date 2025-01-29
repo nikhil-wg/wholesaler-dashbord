@@ -2,7 +2,7 @@ import mongoose, { model, Schema, Types } from "mongoose";
 
 // in the below all schema's id will be generated automatically !
 const customerSchema = new Schema({
-  customerId: { type: mongoose.Types.ObjectId, auto: true },
+  // customerId: { type: mongoose.Types.ObjectId, auto: true },
   name: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
@@ -11,7 +11,7 @@ const customerSchema = new Schema({
 });
 
 const productSChema = new Schema({
-  productId: { type: mongoose.Types.ObjectId, auto: true },
+  // productId: { type: mongoose.Types.ObjectId, auto: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
@@ -27,7 +27,7 @@ const productVariantSchema = new Schema({
 
 const orderSchema = new Schema({
   // id will generate
-  orderId: { type: mongoose.Types.ObjectId, auto: true },
+  // orderId: { type: mongoose.Types.ObjectId, auto: true },
   customerId: { type: mongoose.Types.ObjectId, ref: "Customers" },
   orderDetail: [
     {

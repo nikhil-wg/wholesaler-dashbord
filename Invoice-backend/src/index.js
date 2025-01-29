@@ -1,9 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { CustomerModel } from "./db/db.js";
+import { CustomerModel, OrderModel } from "./db/db.js";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import { useMiddlewares } from "./middlewares/middleware.js";
+
 const app = express();
 dotenv.config();
 app.use(express.json());
@@ -31,11 +33,10 @@ app.post("/signin", async (req, res) => {
       });
       return;
     }
-
     //  if user is present then it will create a token and then send it
     const token = jwt.sign(
       {
-        customerId: customerDetails.customerId,
+        customerId: customerDetails._id,
       },
       JWT_PASS
     );
@@ -51,19 +52,36 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/api/get-orders", async (req, res) => {
+app.post("/api/get-orders", useMiddlewares, async (req, res) => {
   try {
-    const customerEmail = req.body.email;
+    const customerId = req.body.customerId;
+    console.log(customerId);
 
     // getting customer detail fromm customer collection
     const customerDetail = await CustomerModel.findOne({
-      email: customerEmail,
+      _id: customerId,
     });
 
-    if (customerDetail) {
-      res.send(customerDetail);
-    }
     console.log(customerDetail);
+    // if user is not exits
+    if (!customerDetail) {
+      res.status(404).json({
+        message: " User Not Found !",
+      });
+      return;
+    }
+
+    const orders = await OrderModel.find({
+      customerId: customerDetail._id,
+    }).populate("productId");
+
+    if (!orders) {
+      res.status(200).json({
+        message: "there is no order's ",
+      });
+    }
+    console.log(orders);
+    
   } catch (e) {
     console.log(e);
   }
