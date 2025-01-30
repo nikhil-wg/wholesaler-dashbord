@@ -35,6 +35,7 @@ export default function CreateInvoicePDF() {
         <div ref={printRef} className="p-8 bg-white border border-gray-200">
           <div className="flex justify-between items-center mb-8">
             <div>
+              asdfasf
               <h1 className="text-3xl font-bold text-gray-800">INVOICE</h1>
               <p className="text-sm text-gray-600">Invoice #INV-2024-001</p>
             </div>
