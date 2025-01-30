@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { CustomerModel, OrderModel } from "./db/db.js";
-import mongoose from "mongoose";
+import { CustomerModel, OrderModel, ProductModel } from "./db/db.js";
+import mongoose, { mongo } from "mongoose";
 import jwt from "jsonwebtoken";
 import { useMiddlewares } from "./middlewares/middleware.js";
 
@@ -44,6 +44,9 @@ app.post("/signin", async (req, res) => {
     res.json({
       token: token,
     });
+
+    const allCustomer = await CustomerModel.find();
+    console.log(allCustomer);
   } catch (e) {
     res.json({
       e,
@@ -55,14 +58,11 @@ app.post("/signin", async (req, res) => {
 app.post("/api/get-orders", useMiddlewares, async (req, res) => {
   try {
     const customerId = req.body.customerId;
-    console.log(customerId);
-
     // getting customer detail fromm customer collection
     const customerDetail = await CustomerModel.findOne({
       _id: customerId,
     });
 
-    console.log(customerDetail);
     // if user is not exits
     if (!customerDetail) {
       res.status(404).json({
@@ -70,21 +70,40 @@ app.post("/api/get-orders", useMiddlewares, async (req, res) => {
       });
       return;
     }
-
-    const orders = await OrderModel.find({
-      customerId: customerDetail._id,
-    }).populate("productId");
+    //  getting orders' from database
+    const orders = await OrderModel.findOne({
+      customerId,
+    });
 
     if (!orders) {
       res.status(200).json({
         message: "there is no order's ",
       });
+      return;
     }
-    console.log(orders);
-    
+
+    const products = orders.orderDetail;
+    console.log(products);
+
+    const product = await ProductModel.find({});
+    res.json({
+      customerDetail,
+      orders,
+    });
   } catch (e) {
     console.log(e);
   }
+});
+
+app.post("/api/v1/get-products", useMiddlewares, async (req, res) => {
+  try {
+    const productId = req.body.productId;
+
+    const productsInfo = await Pr
+
+
+
+  } catch (e) {}
 });
 
 app.listen(PORT, () => {

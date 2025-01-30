@@ -7,8 +7,7 @@ export const useMiddlewares = (req, res, next) => {
     const token = req.headers.authorization;
     if (token) {
       const decoded = jwt.verify(token, process.env.JWT_PASS);
-      req.body.customerId = decoded;
-      console.log()
+      req.body.customerId = decoded.customerId;
       next();
     } else {
       res.status(401).json({
