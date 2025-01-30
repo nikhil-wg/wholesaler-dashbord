@@ -1,15 +1,15 @@
-import React from 'react';
-import { LayoutDashboard, Package, FileText, UserCog, LogOut } from 'lucide-react';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { LayoutDashboard, Package, FileText, UserCog, LogOut } from "lucide-react";
 
-const Sidebar = ({ activePage, setActivePage }: { 
-  activePage: string;
-  setActivePage: (page: string) => void;
-}) => {
+const Sidebar = () => {
+  const location = useLocation(); // Get the current URL path
+
   const menuItems = [
-    { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { id: 'orders', icon: Package, label: 'Orders' },
-    { id: 'invoices', icon: FileText, label: 'Invoices' },
-    { id: 'profile', icon: UserCog, label: 'Profile' },
+    { id: "dashboard", icon: LayoutDashboard, label: "Dashboard", path: "/" },
+    { id: "orders", icon: Package, label: "Orders", path: "/orders" },
+    { id: "invoices", icon: FileText, label: "Invoices", path: "/invoices" },
+    { id: "profile", icon: UserCog, label: "Profile", path: "/profile" },
   ];
 
   return (
@@ -20,19 +20,23 @@ const Sidebar = ({ activePage, setActivePage }: {
       <nav className="mt-8">
         {menuItems.map((item) => {
           const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+
           return (
-            <button
+            <Link
               key={item.id}
-              onClick={() => setActivePage(item.id)}
+              to={item.path}
               className={`w-full flex items-center px-6 py-3 text-gray-700 hover:bg-gray-50 ${
-                activePage === item.id ? 'bg-blue-50 text-blue-600' : ''
+                isActive ? "bg-blue-50 text-blue-600" : ""
               }`}
             >
               <Icon className="w-5 h-5 mr-3" />
               {item.label}
-            </button>
+            </Link>
           );
         })}
+
+        {/* Logout button (no navigation needed, just a function call) */}
         <button className="w-full flex items-center px-6 py-3 text-red-600 hover:bg-red-50 mt-8">
           <LogOut className="w-5 h-5 mr-3" />
           Logout
@@ -40,6 +44,6 @@ const Sidebar = ({ activePage, setActivePage }: {
       </nav>
     </div>
   );
-}
+};
 
 export default Sidebar;

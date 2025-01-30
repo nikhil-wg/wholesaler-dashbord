@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package, Truck, CheckCircle } from 'lucide-react';
+import { Package,  } from 'lucide-react';
 import { Order } from '../types';
 
 const mockOrders: Order[] = [
