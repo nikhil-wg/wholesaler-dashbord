@@ -71,7 +71,7 @@ app.post("/api/get-orders", useMiddlewares, async (req, res) => {
       return;
     }
     //  getting orders' from database
-    const orders = await OrderModel.findOne({
+    const orders = await OrderModel.find({
       customerId,
     });
 
@@ -82,10 +82,6 @@ app.post("/api/get-orders", useMiddlewares, async (req, res) => {
       return;
     }
 
-    const products = orders.orderDetail;
-    console.log(products);
-
-    const product = await ProductModel.find({});
     res.json({
       customerDetail,
       orders,
@@ -97,13 +93,25 @@ app.post("/api/get-orders", useMiddlewares, async (req, res) => {
 
 app.post("/api/v1/get-products", useMiddlewares, async (req, res) => {
   try {
-    const productId = req.body.productId;
+    const productIds = req.body.productId;
+    const productsInfo = await ProductModel.find({
+      _id: { $in: productIds },
+    });
 
-    const productsInfo = await Pr
+    if (!productsInfo) {
+      res.status(404).json({
+        message: "Product Not Found",
+      });
+      return;
+    }
 
-
-
-  } catch (e) {}
+    //  sending productinfo the the frontend
+    res.json({
+      productsInfo,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 app.listen(PORT, () => {
