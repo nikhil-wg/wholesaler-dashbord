@@ -1,12 +1,8 @@
 import mongoose, { model, Schema, Types } from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
-
-mongoose.connect(process.env.DATABASE_URL);
 
 // in the below all schema's id will be generated automatically !
 const customerSchema = new Schema({
-  customerId: { type: mongoose.Types.ObjectId, auto: true },
+  // customerId: { type: mongoose.Types.ObjectId, auto: true },
   name: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
@@ -15,7 +11,7 @@ const customerSchema = new Schema({
 });
 
 const productSChema = new Schema({
-  productId: { type: mongoose.Types.ObjectId, auto: true },
+  // productId: { type: mongoose.Types.ObjectId, auto: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
@@ -31,7 +27,7 @@ const productVariantSchema = new Schema({
 
 const orderSchema = new Schema({
   // id will generate
-  orderId: { type: mongoose.Types.ObjectId, auto: true },
+  // orderId: { type: mongoose.Types.ObjectId, auto: true },
   customerId: { type: mongoose.Types.ObjectId, ref: "Customers" },
   orderDetail: [
     {
@@ -71,8 +67,11 @@ const invoiceSchema = new Schema({
 });
 
 // exporting all schema's
-module.exports = new model("Customers", customerSchema);
-module.exports = new model("Products", productSChema);
-module.exports = new model("ProductVariant", productVariantSchema);
-module.exports = new model("Orders", orderSchema);
-module.exports = new model("Invoice", invoiceSchema);
+export const CustomerModel = new model("Customers", customerSchema);
+export const ProductModel = new model("Products", productSChema);
+export const ProductVariantModel = new model(
+  "ProductVariant",
+  productVariantSchema
+);
+export const OrderModel = new model("Orders", orderSchema);
+export const InvoiceModel = new model("Invoice", invoiceSchema);

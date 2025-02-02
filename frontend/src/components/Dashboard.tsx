@@ -1,4 +1,3 @@
-import React from 'react';
 import { Package, FileText, TrendingUp, AlertCircle } from 'lucide-react';
 
 const DashboardStats = () => {

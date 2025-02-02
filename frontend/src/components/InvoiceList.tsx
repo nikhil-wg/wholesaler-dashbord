@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FileText, CheckCircle, Clock } from 'lucide-react';
 import { Invoice } from '../types.ts';
 
@@ -22,13 +22,14 @@ const mockInvoices: Invoice[] = [
 ];
 
 const InvoiceList = () => {
+
   return (
     <div className="bg-white rounded-lg shadow">
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4">Recent Invoices</h2>
         <div className="space-y-4">
           {mockInvoices.map((invoice) => (
-            <div key={invoice.id} className="border rounded-lg p-4">
+            <div key={invoice.id} className="border rounded-lg p-4" onClick={() => window.location.href = `/invoice/${invoice.id}`}>
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <FileText className="w-5 h-5 text-blue-600 mr-2" />
