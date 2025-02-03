@@ -28,7 +28,7 @@ const OrderList = () => {
         <div className="space-y-4">
           {mockOrders.map((order) => (
             <div key={order.id} className="border rounded-lg p-4">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center ">
                 <div className="flex items-center">
                   <Package className="w-5 h-5 text-blue-600 mr-2" />
                   <div>
